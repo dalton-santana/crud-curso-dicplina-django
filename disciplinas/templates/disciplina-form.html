@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Editar Curso</title>
+  </head>
+  <body>
+    <h1>Novo/Atualizar disciplina</h1>
+
+    <form method="POST">
+      {% csrf_token %} {{ form }}
+      <select name="curso_id" id="curso_id">
+        {% for c in cursos %}
+        <option value="{{ c.id }}">{{ c.nome }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Save</button>
+    </form>
+
+    {% if disciplina %}
+    <a href="{% url 'delete_disciplina' disciplina.id %}">Delete</a>
+    {% endif %}
+  </body>
+</html>
