@@ -7,7 +7,7 @@
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Editar Curso</title>
+    <title>Editar Aluno</title>
   </head>
   <body>
     <a href="/cursos/">
@@ -23,7 +23,7 @@
     </form>
 
     {% if curso %}
-    <a href="{% url 'delete_curso' curso.id %}">Deletar Curso</a>
+    <a href="{% url 'delete_curso' curso.id %}">Deletar Aluno</a>
     {% endif %}
     <br>
     {% if curso %}
