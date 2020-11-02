@@ -37,19 +37,21 @@ class Curso(models.Model):
         db_table = 'curso'
 
 
-class CursoDisciplina(models.Model):
-    idcurso = models.OneToOneField(Curso, models.DO_NOTHING, db_column='idCurso', primary_key=True)  # Field name made lowercase.
-    iddisciplina = models.ForeignKey('Disciplina', models.DO_NOTHING, db_column='idDisciplina')  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'curso_disciplina'
-        unique_together = (('idcurso', 'iddisciplina'),)
-
-
 class Disciplina(models.Model):
     nome = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'disciplina'
+
+
+
+class CursoDisciplina(models.Model):
+    idcurso = models.OneToOneField(Curso, models.DO_NOTHING, db_column='idCurso', primary_key=True)  # Field name made lowercase.
+    iddisciplina = models.CharField(max_length=100, blank=True, null=True, db_column='idDisciplina')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'curso_disciplina'
+        unique_together = (('idcurso', 'iddisciplina'),)
+

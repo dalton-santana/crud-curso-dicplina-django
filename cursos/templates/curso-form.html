@@ -10,17 +10,32 @@
     <title>Editar Curso</title>
   </head>
   <body>
+    <a href="/cursos/">
+      <li>Voltar</li>
+    </a>
     <h1>Novo/Atualizar curso</h1>
 
     <form method="POST">
-      {% csrf_token %} {{ form }}
-
-  
+      {% csrf_token %} {{ form }} 
+      
       <button type="submit">Salvar</button>
+
     </form>
 
     {% if curso %}
     <a href="{% url 'delete_curso' curso.id %}">Deletar Curso</a>
     {% endif %}
+    <br>
+    {% if curso %}
+      <h2>Disciplinas:</h2>
+      <ul>
+        {% for d in disciplinas %}
+        <li>
+          {{ d.nome }}
+          <a href="{% url 'delete_curso_discplina' d.id %}">Remover</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
   </body>
 </html>

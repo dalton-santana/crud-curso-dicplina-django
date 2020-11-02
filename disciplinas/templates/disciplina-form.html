@@ -14,11 +14,13 @@
 
     <form method="POST">
       {% csrf_token %} {{ form }}
+      {% if not  disciplina %}
       <select name="curso_id" id="curso_id">
-        {% for c in cursos %}
-        <option value="{{ c.id }}">{{ c.nome }}</option>
-        {% endfor %}
-      </select>
+          {% for c in cursos %}
+          <option value="{{ c.id }}">{{ c.nome }}</option>
+          {% endfor %}
+        </select>
+        {% endif %}
       <button type="submit">Save</button>
     </form>
 

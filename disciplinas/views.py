@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
-from pos1.forms import DisciplinaForm
+from pos1.forms import DisciplinaForm, CursoDisciplinaForm
 from .models import Disciplina
-from cursos.models import Curso
+from cursos.models import Curso, CursoDisciplina
 
 
 def list_disciplinas(request):
@@ -14,9 +14,18 @@ def list_disciplinas(request):
 def create_disciplina(request):
 	form = DisciplinaForm(request.POST or None)
 	cursos = Curso.objects.all()
+
+	print(request.POST)
 	
 	if request.method == 'POST' and form.is_valid():
-		form.save()
+		disciplina = form.save()
+
+		curso = Curso.objects.get(pk=request.POST.get('curso_id'))
+		disciplina = Disciplina.objects.get(pk=disciplina.id)
+
+		formCursoDisciplina = CursoDisciplina(idcurso=curso, iddisciplina=disciplina.id)
+		formCursoDisciplina.save()
+		
 		return HttpResponseRedirect('/disciplinas/')
 
 	return render(request,'disciplina-form.html', {'form': form, 'cursos': cursos})
