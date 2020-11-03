@@ -42,6 +42,7 @@ def update_aluno(request, id):
     aluno = Aluno.objects.get(pk=id)
     cursos = Curso.objects.all()
 
+
     matriculas = AlunoDisciplina.objects.filter(idaluno=id)
     
     matriculas_result = []
@@ -77,16 +78,18 @@ def create_matricula(request, id):
     aluno = Aluno.objects.get(pk=id)
     curso = Curso.objects.get(pk=aluno.idcurso)
     cursoDisciplinas = CursoDisciplina.objects.filter(idcurso=aluno.idcurso)
+   
     
     disciplinas = []
     for d in cursoDisciplinas:
         disciplinas.append(Disciplina.objects.get(id=d.iddisciplina))
 
+    print(disciplinas)
     if request.method == 'POST':
         matricula = AlunoDisciplina(idaluno=aluno, iddisciplina=request.POST.get('idDisciplina'), semestre=request.POST.get('semestre'), situacao=request.POST.get('situacao'))
         matricula.save(force_insert=True)
 
-        return HttpResponseRedirect('/alunos/')
+        return HttpResponseRedirect('/alunos/update/' + str(aluno.id) + "/")
     
 
 

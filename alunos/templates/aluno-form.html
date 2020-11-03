@@ -17,6 +17,7 @@
 
     <form method="POST">
       {% csrf_token %} {{ form }} 
+      <label>Curso:</label>
       <select  name="idCurso" id="idCurso">
         {% for c in cursos %}
         {% if aluno.idcurso == c.id %}
@@ -35,9 +36,10 @@
       <h2>Matriculas:</h2>
       <ul>
         {% for m in matriculas %}
-        <li>
-          Disciplina: {{ m.disciplina.nome }} | Semestre: {{ m.info.semestre }} | Situação: {{ m.info.situacao }}
-        </li>
+        
+          <li>
+            Disciplina: {{ m.disciplina.nome }} | Semestre: {{ m.info.semestre }} | Situação: {{ m.info.situacao }}
+          </li>
         {% endfor %}
       </ul>
       {% endif %}
