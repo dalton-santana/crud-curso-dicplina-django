@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
-from pos1.forms import AlunoForm
+from pos1.forms import AlunoForm, AlunoDisciplinaForm
 from .models import Aluno, AlunoDisciplina
 from disciplinas.models import Disciplina
 from cursos.models import Curso, CursoDisciplina
@@ -60,7 +60,61 @@ def update_aluno(request, id):
     return render(request, 'aluno-form.html',  {'form': form, 'id': id, 'aluno': aluno, 'cursos': cursos})
 
 
-def delete_aluno_discplina(request, id):
+
+def create_matricula(request, id):
+    form = AlunoDisciplinaForm(request.POST or None)
+    aluno = Aluno.objects.get(pk=id)
+    curso = Curso.objects.get(pk=aluno.idcurso)
+    cursoDisciplinas = CursoDisciplina.objects.filter(idcurso=aluno.idcurso)
+    
+    disciplinas = []
+    for d in cursoDisciplinas:
+        disciplinas.append(Disciplina.objects.get(id=d.iddisciplina))
+
+    if request.method == 'POST':
+        matricula = AlunoDisciplina(idaluno=aluno, iddisciplina=request.POST.get('idDisciplina'), semestre=request.POST.get('semestre'), situacao=request.POST.get('situacao'))
+        matricula.save(force_insert=True)
+
+        return HttpResponseRedirect('/alunos/')
+    
+
+
+    return render(request, 'matricula-form.html', {'form': form, 'aluno': aluno, 'curso': curso, 'disciplinas': disciplinas})
+
+
+def delete_matricula(request, id):
+    aluno = Aluno.objects.get(pk=id)
+
+    if request.method == "POST":
+        aluno.delete()
+        return HttpResponseRedirect('/alunos/')
+
+    return render(request, 'aluno-delete-confirm.html', {'aluno': aluno})
+
+
+def update_matricula(request, id):
+    aluno = Aluno.objects.get(pk=id)
+    cursos = Curso.objects.all()
+
+    if request.method == 'POST':
+        form = AlunoForm(request.POST, instance=aluno)
+
+        form.save()
+
+        aluno.idcurso = request.POST.get('idCurso')
+        aluno.save()
+
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/alunos/')
+
+    else:
+        form = AlunoForm(instance=aluno)
+
+    return render(request, 'aluno-form.html',  {'form': form, 'id': id, 'aluno': aluno, 'cursos': cursos})
+
+
+def delete_matricula(request, id):
     disciplina = AlunoDisciplina.objects.get(iddisciplina=id)
 
     if request.method == "POST":

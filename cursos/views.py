@@ -39,7 +39,6 @@ def update_curso(request, id):
     for d in cursoDisciplinas:
         disciplinas.append(Disciplina.objects.get(id=d.iddisciplina))
 
-    print(disciplinas)
     if request.method == 'POST':
         form = CursoForm(request.POST, instance=curso)
 

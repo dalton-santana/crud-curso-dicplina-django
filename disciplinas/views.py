@@ -24,7 +24,7 @@ def create_disciplina(request):
 		disciplina = Disciplina.objects.get(pk=disciplina.id)
 
 		formCursoDisciplina = CursoDisciplina(idcurso=curso, iddisciplina=disciplina.id)
-		formCursoDisciplina.save()
+		formCursoDisciplina.save(force_insert=True)
 		
 		return HttpResponseRedirect('/disciplinas/')
 

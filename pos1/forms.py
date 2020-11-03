@@ -22,7 +22,7 @@ class CursoDisciplinaForm(forms.ModelForm):
 class AlunoDisciplinaForm(forms.ModelForm):
     class Meta:
         model = AlunoDisciplina
-        fields = '__all__'
+        fields = ['semestre', 'situacao']
 
 class AlunoForm(forms.ModelForm):
     class Meta:

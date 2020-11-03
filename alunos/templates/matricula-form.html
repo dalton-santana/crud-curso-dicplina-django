@@ -7,38 +7,35 @@
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Editar Aluno</title>
+    <title>Editar Matricula</title>
   </head>
   <body>
     <a href="/alunos/">
       <li>Voltar</li>
     </a>
-    <h1>Novo/Atualizar aluno</h1>
+    <h1>Novo/Atualizar matricula</h1>
 
+    <h2>Aluno: {{ aluno.nome }}</h2>
+    <h2>Curso: {{ curso.nome }}</h2>
     <form method="POST">
       {% csrf_token %} {{ form }} 
-      <select  name="idCurso" id="idCurso">
-        {% for c in cursos %}
-        {% if aluno.idcurso == c.id %}
+       
+      
+      <label>Disciplina:</label>
+      <select  name="idDisciplina" id="idDisciplina">
+        {% for c in disciplinas %}
+        {% if aluno.iddisciplina == c.id %}
         <option selected value="{{ c.id }}">{{ c.nome }}</option>
         {% else %}
         <option value="{{ c.id }}">{{ c.nome }}</option>
         {% endif %}
         {% endfor %}
       </select>
-    
-
       <button type="submit">Salvar</button>
-
-      <br>
-      <a href="{% url 'create_matricula' aluno.id %}">
-       Nova Matricula
-      </a>
     </form>
 
-    <br>
-    {% if aluno %}
-    <a href="{% url 'delete_aluno' aluno.id %}">Deletar Aluno</a>
+    {% if matricula %}
+    <a href="{% url 'delete_matricula' matricula.id %}">Deletar Matricula</a>
     {% endif %}
   </body>
 </html>
