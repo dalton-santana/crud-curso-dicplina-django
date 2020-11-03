@@ -42,6 +42,17 @@ def update_aluno(request, id):
     aluno = Aluno.objects.get(pk=id)
     cursos = Curso.objects.all()
 
+    matriculas = AlunoDisciplina.objects.filter(idaluno=id)
+    
+    matriculas_result = []
+    for m in matriculas:
+        disciplina = Disciplina.objects.get(pk=m.iddisciplina)
+        obj = {
+            'info': m,
+            'disciplina': disciplina
+        }
+        matriculas_result.append(obj)
+    
     if request.method == 'POST':
         form = AlunoForm(request.POST, instance=aluno)
 
@@ -57,7 +68,7 @@ def update_aluno(request, id):
     else:
         form = AlunoForm(instance=aluno)
 
-    return render(request, 'aluno-form.html',  {'form': form, 'id': id, 'aluno': aluno, 'cursos': cursos})
+    return render(request, 'aluno-form.html',  {'form': form, 'id': id, 'aluno': aluno, 'cursos': cursos, 'matriculas': matriculas_result})
 
 
 

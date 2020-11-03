@@ -31,6 +31,17 @@
       <button type="submit">Salvar</button>
 
       <br>
+      {% if aluno %}
+      <h2>Matriculas:</h2>
+      <ul>
+        {% for m in matriculas %}
+        <li>
+          Disciplina: {{ m.disciplina.nome }} | Semestre: {{ m.info.semestre }} | Situação: {{ m.info.situacao }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <br>
       <a href="{% url 'create_matricula' aluno.id %}">
        Nova Matricula
       </a>
